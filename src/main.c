@@ -80,17 +80,17 @@ int main(int argc, char* argv[]){
 		}
 	}
 
-	int i;
+	/*int i;
 	Imagen* img = (Imagen*)malloc(sizeof(Imagen));
 	if(img == NULL){
 		printf("Fallo en malloc de img %d\n", i);
 		return 1;
-	}
+	}*/
 
-	int** filtro = abrirFiltro(m);
+	/*int** filtro = abrirFiltro(m);
 	if(filtro == NULL){
 		return 1;
-	}
+	}*/
 
 	char salida[500] = "";
 	if(b == 1){

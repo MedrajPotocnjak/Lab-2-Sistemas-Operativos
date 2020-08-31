@@ -12,5 +12,8 @@
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
 	
+	int nb;
+	nb = clasificar(imgFiltro, n);
+
 	return 0;
 }
