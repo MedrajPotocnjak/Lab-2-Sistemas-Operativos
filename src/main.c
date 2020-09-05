@@ -102,6 +102,7 @@ int main(int argc, char* argv[]){
 	char* nombre;
 
 	for(i = 1; i <= c; i++){
+		/*
 		int nb;
 		struct jpeg_error_mgr jerr;
 		//1° leer la imagen
@@ -116,6 +117,7 @@ int main(int argc, char* argv[]){
 		nb = clasificar(imgFiltro, n);
 		//6° escribir imagen
 		escribirJpg(imgFiltro, i, &jerr);
+		*/
 
 		nombre = armarNombreArchivo(i, 2);
 
@@ -131,7 +133,7 @@ int main(int argc, char* argv[]){
     		sprintf(resultado, "|%15s|%16s|\n", nombre, result);
             strcat(salida, resultado); 
     	}
-	}
+	}	
 	if (b == 1) {
         printf("%s\n", salida); 
     }

@@ -13,7 +13,13 @@
 int main(int argc, char* argv[]){
 	
 	int nb;
-	nb = clasificar(imgFiltro, n);
+	int i = numero de la imagen;
+	int c = cantidad de imagenes;
+	//imgFiltro es la que se le entrega a este main
+	
+	for(i; i <= c; i++){
+		nb = clasificar(imgFiltro, n);
+	}
 
 	return 0;
 }

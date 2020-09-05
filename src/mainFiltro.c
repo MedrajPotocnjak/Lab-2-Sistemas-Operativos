@@ -17,7 +17,13 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	Imagen* imgFiltro = aplicarFiltro(imgGris, filtro);
+	int i = numero de la imagen;
+	int c = cantidad de imagenes;
+	//imgGris es la que se le entrega a este main
+
+	for(i; i <= c; i++){
+		Imagen* imgFiltro = aplicarFiltro(imgGris, filtro);
+	}
 
 	return 0;
 }

@@ -12,7 +12,13 @@
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
 	
-	binarizar(imgFiltro, u);
+	int i = numero de la imagen;
+	int c = cantidad de imagenes;
+	//imgFiltro es la que se le entrega a este main
+
+	for(i; i <= c; i++){
+		binarizar(imgFiltro, u);
+	}
 
 	return 0;
 }

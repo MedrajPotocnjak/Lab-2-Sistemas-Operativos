@@ -10,6 +10,8 @@
 //Funcionamiento: inicia el programa, realiza el getopt y ejecuta los procesos del pipeline para la
 //modificacion de las imagenes y la clasificacion.
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
+
+//Se le entregara el número de la imagen la cual se asignara a la variable i, tambien se le entregara la cantidad total de imagenes
 int main(int argc, char* argv[]){
 
 	struct jpeg_error_mgr jerr;
@@ -21,8 +23,11 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	//1° leer la imagen
-	leerJpg(img, i, &jerr);
+	int c = numero total de imagenes;
+	for(i; i <= c; i++){
+		//1° leer la imagen
+		leerJpg(img, i, &jerr);
+	}
 
 	return 0;
 }
