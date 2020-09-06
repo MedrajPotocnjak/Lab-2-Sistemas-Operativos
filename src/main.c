@@ -105,7 +105,6 @@ int main(int argc, char* argv[]){
 		close(paip[0])
 	}
 
-	wait(NULL);
-	
+	wait(NULL);	
 	return 0;
 }

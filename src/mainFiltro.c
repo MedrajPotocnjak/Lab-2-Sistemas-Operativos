@@ -12,6 +12,31 @@
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
 
+	//Pipe
+	int paip[2];
+
+	if (pipe(paip) == -1){ 
+        fprintf(stderr, "Pipe fallido" ); 
+        return 1; 
+    }
+
+	//Fork con execv
+	pid_t forky = fork();
+
+	if(forky < 0){
+		fprintf(stderr, "Fork fallido" ); 
+        return 1;
+	}
+	if(forky = 0){
+		//Hijo
+		close(paip[1])
+		execv(ejecutableBina, argv);
+	}
+	else{
+		//Padre
+		close(paip[0])
+	}
+
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
@@ -31,5 +56,6 @@ int main(int argc, char* argv[]){
 		Imagen* imgFiltro = aplicarFiltro(imgGris, filtro);
 	}
 
+	wait(NULL);
 	return 0;
 }

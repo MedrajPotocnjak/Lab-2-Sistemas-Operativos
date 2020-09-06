@@ -52,5 +52,7 @@ int main(int argc, char* argv[]){
         printf("%s\n", salida); 
     }
 	free(img);
+
+	wait(NULL);
 	return 0;
 }
