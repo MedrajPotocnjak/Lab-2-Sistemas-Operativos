@@ -19,6 +19,12 @@ int main(int argc, char* argv[]){
 	char* nombre;
 	//imgFiltro es la que se le entrega a este main
 
+	char salida[500] = "";
+	if(b == 1){
+		strcat(salida, "|     image     |  nearly black  |\n");
+		strcat(salida, "|---------------|----------------|\n");
+	}
+
 	for(i; i <= c; i++){
 		escribirJpg(imgFiltro, i, &jerr);
 

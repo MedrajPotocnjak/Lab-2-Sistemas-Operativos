@@ -99,23 +99,11 @@ int main(int argc, char* argv[]){
 	if(forky = 0){
 		//Hijo
 		close(paip[1])
-		execv(const char *path, argv);
+		execv(ejecutableLectura, argv);
 	}
 	else{
 		//Padre
 		close(paip[0])
-	}
-
-	char salida[500] = "";
-	if(b == 1){
-		strcat(salida, "|     image     |  nearly black  |\n");
-		strcat(salida, "|---------------|----------------|\n");
-	}
-
-	char* result;
-	char* nombre;
-
-	for(i = 1; i <= c; i++){
 
 	}
 	return 0;
