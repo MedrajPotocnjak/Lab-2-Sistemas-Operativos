@@ -12,8 +12,13 @@
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
 
+	int c = atoi(argv[2]);
+	int u = atoi(argv[4]);
+	int n = atoi(argv[6]);
+	char* m = argv[8];
+	int b = atoi(argv[10]);
+
 	int i = numero de la imagen;
-	int c = cantidad de imagenes;
 	//img es la que se le entrega a este main
 
 	for(i; i <= c; i++){

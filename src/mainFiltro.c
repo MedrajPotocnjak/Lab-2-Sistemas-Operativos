@@ -11,6 +11,12 @@
 //modificacion de las imagenes y la clasificacion.
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
+
+	int c = atoi(argv[2]);
+	int u = atoi(argv[4]);
+	int n = atoi(argv[6]);
+	char* m = argv[8];
+	int b = atoi(argv[10]);
 	
 	int** filtro = abrirFiltro(m);
 	if(filtro == NULL){
