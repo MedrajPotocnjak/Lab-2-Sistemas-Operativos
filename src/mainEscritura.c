@@ -15,11 +15,32 @@ int main(int argc, char* argv[]){
 	struct jpeg_error_mgr jerr;
 	int i = numero de la imagen;
 	int c = cantidad de imagenes;
+	char* result;
+	char* nombre;
 	//imgFiltro es la que se le entrega a este main
 
 	for(i; i <= c; i++){
 		escribirJpg(imgFiltro, i, &jerr);
+
+		nombre = armarNombreArchivo(i, 2);
+
+		if(nb == 1){
+        	result = "yes";
+    	}
+    	else{
+        	result = "no";
+    	}
+
+    	if(b == 1){
+        	char resultado[50];
+    		sprintf(resultado, "|%15s|%16s|\n", nombre, result);
+        	strcat(salida, resultado); 
+    	}
 	}
 
+	if (b == 1) {
+        printf("%s\n", salida); 
+    }
+	free(img);
 	return 0;
 }

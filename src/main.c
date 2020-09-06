@@ -80,17 +80,31 @@ int main(int argc, char* argv[]){
 		}
 	}
 
-	/*int i;
-	Imagen* img = (Imagen*)malloc(sizeof(Imagen));
-	if(img == NULL){
-		printf("Fallo en malloc de img %d\n", i);
-		return 1;
-	}*/
+	//Pipe
+	int paip[2];
 
-	/*int** filtro = abrirFiltro(m);
-	if(filtro == NULL){
-		return 1;
-	}*/
+	if (pipe(paip) == -1) 
+    { 
+        fprintf(stderr, "Pipe fallido" ); 
+        return 1; 
+    }
+
+	//Fork con exec
+	pid_t forky = fork();
+
+	if(forky < 0){
+		fprintf(stderr, "Fork fallido" ); 
+        return 1;
+	}
+	if(forky = 0){
+		//Hijo
+		close(paip[1])
+		execv(const char *path, argv);
+	}
+	else{
+		//Padre
+		close(paip[0])
+	}
 
 	char salida[500] = "";
 	if(b == 1){
@@ -102,41 +116,7 @@ int main(int argc, char* argv[]){
 	char* nombre;
 
 	for(i = 1; i <= c; i++){
-		/*
-		int nb;
-		struct jpeg_error_mgr jerr;
-		//1° leer la imagen
-		leerJpg(img, i, &jerr);
-		//2° convertir a escala de grises
-		Imagen* imgGris = converGris(img);
-		//3° aplicar filtro
-		Imagen* imgFiltro = aplicarFiltro(imgGris, filtro);
-		//4° aplicar binarizacion
-		binarizar(imgFiltro, u);
-		//5° analizar propiedad
-		nb = clasificar(imgFiltro, n);
-		//6° escribir imagen
-		escribirJpg(imgFiltro, i, &jerr);
-		*/
 
-		nombre = armarNombreArchivo(i, 2);
-
-		if(nb == 1){
-            result = "yes";
-        }
-        else{
-            result = "no";
-        }
-
-        if(b == 1){
-            char resultado[50];
-    		sprintf(resultado, "|%15s|%16s|\n", nombre, result);
-            strcat(salida, resultado); 
-    	}
-	}	
-	if (b == 1) {
-        printf("%s\n", salida); 
-    }
-	free(img);
+	}
 	return 0;
 }
