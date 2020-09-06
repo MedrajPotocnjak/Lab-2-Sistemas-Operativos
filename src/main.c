@@ -83,8 +83,7 @@ int main(int argc, char* argv[]){
 	//Pipe
 	int paip[2];
 
-	if (pipe(paip) == -1) 
-    { 
+	if (pipe(paip) == -1){ 
         fprintf(stderr, "Pipe fallido" ); 
         return 1; 
     }
@@ -104,7 +103,7 @@ int main(int argc, char* argv[]){
 	else{
 		//Padre
 		close(paip[0])
-
 	}
+	
 	return 0;
 }
