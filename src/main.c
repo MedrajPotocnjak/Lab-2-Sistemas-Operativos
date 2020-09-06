@@ -104,6 +104,8 @@ int main(int argc, char* argv[]){
 		//Padre
 		close(paip[0])
 	}
+
+	wait(NULL);
 	
 	return 0;
 }
