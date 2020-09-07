@@ -17,9 +17,9 @@
 int main(int argc, char* argv[]){
 
 	//Pipe
-	int paip[2];
+	int paip2[2];
 
-	if (pipe(paip) == -1){ 
+	if (pipe(paip2) == -1){ 
         fprintf(stderr, "Pipe fallido" ); 
         return 1; 
     }
@@ -33,11 +33,11 @@ int main(int argc, char* argv[]){
 	}
 	if(forky = 0){
 		//Hijo
-		close(paip[1]);
+		close(paip2[1]);
 		execv("mainGrises", argv);
 	}
 	//Padre
-	close(paip[0]);
+	close(paip2[0]);
 	
 
 	int c = atoi(argv[2]);

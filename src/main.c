@@ -83,9 +83,9 @@ int main(int argc, char* argv[]){
 	}
 
 	//Pipe
-	int paip[2];
+	int paip1[2];
 
-	if (pipe(paip) == -1){ 
+	if (pipe(paip1) == -1){ 
         fprintf(stderr, "Pipe fallido" ); 
         return 1; 
     }
@@ -99,12 +99,12 @@ int main(int argc, char* argv[]){
 	}
 	if(forky = 0){
 		//Hijo
-		close(paip[1]);
+		close(paip1[1]);
 		execv("mainLectura", argv);
 	}
 	
 	//Padre
-	close(paip[0]);
+	close(paip1[0]);
 	
 
 	wait(NULL);	
