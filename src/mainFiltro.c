@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <jpeglib.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 #include "../incl/filtroRealce.h"
 #include "../incl/funciones.h"
 
