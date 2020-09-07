@@ -29,13 +29,13 @@ int main(int argc, char* argv[]){
 	}
 	if(forky = 0){
 		//Hijo
-		close(paip[1])
-		execv(ejecutableEscritura, argv);
+		close(paip[1]);
+		execv("mainEscritura", argv);
 	}
-	else{
-		//Padre
-		close(paip[0])
-	}
+
+	//Padre
+	close(paip[0]);
+	
 	
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]){
 	char* m = argv[8];
 	int b = atoi(argv[10]);
 	int nb;
-	int i = numero de la imagen;
+	int i = 0;
 	//imgFiltro es la que se le entrega a este main
 	
 	for(i; i <= c; i++){

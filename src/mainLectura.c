@@ -31,13 +31,12 @@ int main(int argc, char* argv[]){
 	}
 	if(forky = 0){
 		//Hijo
-		close(paip[1])
-		execv(ejecutableGrises, argv);
+		close(paip[1]);
+		execv("mainGrises", argv);
 	}
-	else{
-		//Padre
-		close(paip[0])
-	}
+	//Padre
+	close(paip[0]);
+	
 
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
@@ -53,8 +52,6 @@ int main(int argc, char* argv[]){
 		printf("Fallo en malloc de img %d\n", i);
 		return 1;
 	}
-
-	int c = numero total de imagenes;
 
 	for(i; i <= c; i++){
 		//1° leer la imagen

@@ -12,6 +12,30 @@
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
 	
+	//Pipe
+	int paip[2];
+
+	if (pipe(paip) == -1){ 
+        fprintf(stderr, "Pipe fallido" ); 
+        return 1; 
+    }
+
+	//Fork con execv
+	pid_t forky = fork();
+
+	if(forky < 0){
+		fprintf(stderr, "Fork fallido" ); 
+        return 1;
+	}
+	if(forky = 0){
+		//Hijo
+		close(paip[1]);
+		//execv("nose", argv);
+	}
+	
+	//Padre
+	close(paip[0]);
+
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
@@ -28,6 +52,8 @@ int main(int argc, char* argv[]){
 		strcat(salida, "|     image     |  nearly black  |\n");
 		strcat(salida, "|---------------|----------------|\n");
 	}
+
+
 
 	for(i; i <= c; i++){
 		escribirJpg(imgFiltro, i, &jerr);

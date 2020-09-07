@@ -97,13 +97,13 @@ int main(int argc, char* argv[]){
 	}
 	if(forky = 0){
 		//Hijo
-		close(paip[1])
-		execv(ejecutableLectura, argv);
+		close(paip[1]);
+		execv("mainLectura", argv);
 	}
-	else{
-		//Padre
-		close(paip[0])
-	}
+	
+	//Padre
+	close(paip[0]);
+	
 
 	wait(NULL);	
 	return 0;

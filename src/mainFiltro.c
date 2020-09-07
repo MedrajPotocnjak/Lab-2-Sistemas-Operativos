@@ -29,13 +29,13 @@ int main(int argc, char* argv[]){
 	}
 	if(forky = 0){
 		//Hijo
-		close(paip[1])
-		execv(ejecutableBina, argv);
+		close(paip[1]);
+		execv("mainBinarizacion", argv);
 	}
-	else{
-		//Padre
-		close(paip[0])
-	}
+	
+	//Padre
+	close(paip[0]);
+	
 
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
@@ -48,8 +48,8 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	int i = numero de la imagen;
-	int c = cantidad de imagenes;
+	int i = 0;
+
 	//imgGris es la que se le entrega a este main
 
 	for(i; i <= c; i++){
