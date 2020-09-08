@@ -61,7 +61,7 @@ int main(int argc, char* argv[]){
 		//write(int fd, const void *buf, size_t count);
 		
 		//1° leer la imagen
-		leerJpg(img, i, &jerr);
+		//leerJpg(img, i, &jerr);
 	}
 
 	wait(NULL);

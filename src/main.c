@@ -5,6 +5,7 @@
 #include <jpeglib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+
 #include "../incl/lectura.h"
 #include "../incl/escalaGrises.h"
 #include "../incl/filtroRealce.h"
@@ -12,7 +13,6 @@
 #include "../incl/clasificacion.h"
 #include "../incl/escritura.h"
 #include "../incl/funciones.h"
-#define SIZE 512
 
 //Entradas: argc <tipo: int> (cantidad de argumentos) - argv <tipo: array de char> (lista de argumentos)
 //Funcionamiento: inicia el programa, realiza el getopt y ejecuta los procesos del pipeline para la
