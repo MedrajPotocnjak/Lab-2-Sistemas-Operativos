@@ -31,7 +31,7 @@ int main(int argc, char* argv[]){
 		fprintf(stderr, "Fork fallido" ); 
         return 1;
 	}
-	if(forky = 0){
+	if(forky == 0){
 		//Hijo
 		close(paip2[1]);
 		execv("mainGrises", argv);
@@ -49,13 +49,17 @@ int main(int argc, char* argv[]){
 	struct jpeg_error_mgr jerr;
 	
 	int i;
-	Imagen* img = (Imagen*)malloc(sizeof(Imagen));
-	if(img == NULL){
-		printf("Fallo en malloc de img %d\n", i);
-		return 1;
-	}
 
-	for(i; i <= c; i++){
+	for(i = 1; i <= c; i++){
+		Imagen* img = (Imagen*)malloc(sizeof(Imagen));
+		if(img == NULL){
+			printf("Fallo en malloc de img %d\n", i);
+			return 1;
+		}
+
+		//read(int fd, void *buf, size_t count);
+		//write(int fd, const void *buf, size_t count);
+		
 		//1° leer la imagen
 		leerJpg(img, i, &jerr);
 	}

@@ -5,7 +5,7 @@
 #include <jpeglib.h>
 #include <sys/wait.h>
 #include <sys/types.h>
-#include "../incl/binarizacion.h"
+#include "../incl/escalaGrises.h"
 #include "../incl/funciones.h"
 
 //Entradas: argc <tipo: int> (cantidad de argumentos) - argv <tipo: array de char> (lista de argumentos)
@@ -15,9 +15,9 @@
 int main(int argc, char* argv[]){
 
 	//Pipe
-	int paip5[2];
+	int paip3[2];
 
-	if (pipe(paip5) == -1){ 
+	if (pipe(paip3) == -1){ 
         fprintf(stderr, "Pipe fallido" ); 
         return 1; 
     }
@@ -29,27 +29,27 @@ int main(int argc, char* argv[]){
 		fprintf(stderr, "Fork fallido" ); 
         return 1;
 	}
-	if(forky = 0){
+	if(forky == 0){
 		//Hijo
-		close(paip5[1]);
-		execv("mainClasificacion", argv);
+		close(paip3[1]);
+		execv("mainFiltro", argv);
 	}
 
 	//Padre
-	close(paip5[0]);
-	
+	close(paip3[0]);
+
 
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
 	int b = atoi(argv[10]);
-	
-	int i = 0;
-	//imgFiltro es la que se le entrega a este main
+	int i;
 
-	for(i; i <= c; i++){
-		binarizar(imgFiltro, u);
+	//img es la que se le entrega a este main
+
+	for(i = 1; i <= c; i++){
+		//Imagen* imgGris = converGris(img);
 	}
 
 	wait(NULL);

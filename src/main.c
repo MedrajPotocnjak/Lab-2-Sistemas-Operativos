@@ -12,6 +12,7 @@
 #include "../incl/clasificacion.h"
 #include "../incl/escritura.h"
 #include "../incl/funciones.h"
+#define SIZE 512
 
 //Entradas: argc <tipo: int> (cantidad de argumentos) - argv <tipo: array de char> (lista de argumentos)
 //Funcionamiento: inicia el programa, realiza el getopt y ejecuta los procesos del pipeline para la
@@ -82,6 +83,9 @@ int main(int argc, char* argv[]){
 		}
 	}
 
+	int buffer[SIZE];
+	int readbytes;
+
 	//Pipe
 	int paip1[2];
 
@@ -97,7 +101,7 @@ int main(int argc, char* argv[]){
 		fprintf(stderr, "Fork fallido" ); 
         return 1;
 	}
-	if(forky = 0){
+	if(forky == 0){
 		//Hijo
 		close(paip1[1]);
 		execv("mainLectura", argv);
@@ -105,7 +109,6 @@ int main(int argc, char* argv[]){
 	
 	//Padre
 	close(paip1[0]);
-	
 
 	wait(NULL);	
 	return 0;
