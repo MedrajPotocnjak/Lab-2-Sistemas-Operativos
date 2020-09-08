@@ -32,12 +32,17 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip3[1]);
+		int dupiao = dup2(paip2[0], STDIN_FILENO);
+		if (dupiao == -1){
+			fprintf(stderr, "Dup2 fallido" );
+			return 1; 
+		}
+		close(paip3[0]);
 		execv("mainFiltro", argv);
 	}
 
 	//Padre
 	close(paip3[0]);
-
 
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
@@ -46,10 +51,31 @@ int main(int argc, char* argv[]){
 	int b = atoi(argv[10]);
 	int i;
 
-	//img es la que se le entrega a este main
-
 	for(i = 1; i <= c; i++){
-		//Imagen* imgGris = converGris(img);
+		uint32_t alt;
+		uint32_t anch;
+		uint32_t canals;
+		read(paip3[0], &alt, sizeof(uint32_t));
+		read(paip3[0], &anch, sizeof(uint32_t));
+		read(paip3[0], &canals, sizeof(uint32_t));
+		Imagen* img = (Imagen*)malloc(sizeof(Imagen));
+		img->alto = alt;
+		img->ancho = anch;
+		img->canales = canals;
+		int ancho = img->ancho * img->canales;
+		crearMatrizJpg(img);
+		int j;
+		int k;
+		for(j = 0; j < img->alto; j++){
+			for(k = 0; k < ancho; k++){
+				uint8_t pxl;
+				read(paip3[0], &pxl, sizeof(uint8_t));
+				img->matriz[j][k] = pxl;
+			}
+		}
+
+		Imagen* imgGris = converGris(img);
+
 	}
 
 	wait(NULL);

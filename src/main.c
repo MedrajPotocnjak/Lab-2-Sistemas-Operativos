@@ -110,6 +110,9 @@ int main(int argc, char* argv[]){
 	//Padre
 	close(paip1[0]);
 
+	//read(int fd, void *buf, size_t count);
+	//write(int fd, const void *buf, size_t count);
+
 	wait(NULL);	
 	return 0;
 }

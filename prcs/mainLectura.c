@@ -32,36 +32,54 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip2[1]);
+		int dupiao = dup2(paip2[0], STDIN_FILENO);
+		if (dupiao == -1){
+			fprintf(stderr, "Dup2 fallido" );
+			return 1; 
+		}
+		close(paip2[0]);
 		execv("mainGrises", argv);
 	}
 	//Padre
 	close(paip2[0]);
 	
-
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
 	int b = atoi(argv[10]);
 
-	struct jpeg_error_mgr jerr;
-	
+	struct jpeg_error_mgr jerr;	
 	int i;
-
 	for(i = 1; i <= c; i++){
 		Imagen* img = (Imagen*)malloc(sizeof(Imagen));
 		if(img == NULL){
 			printf("Fallo en malloc de img %d\n", i);
 			return 1;
 		}
-
-		//read(int fd, void *buf, size_t count);
-		//write(int fd, const void *buf, size_t count);
-		
 		//1° leer la imagen
-		//leerJpg(img, i, &jerr);
-	}
+		leerJpg(img, i, &jerr);
 
+		uint32_t alt = img->alto;
+		uint32_t anch = img->ancho;
+		uint32_t canals = img->canales;
+		uint8_t pxl;
+
+		write(paip2[1], &alt, sizeof(uint32_t));
+		write(paip2[1], &anch, sizeof(uint32_t));
+		write(paip2[1], &canals, sizeof(uint32_t));
+
+		int j;
+		int k;
+		for(j = 0; j < alt; j++){
+			for(k = 0; k < anch*canals; k++){
+				pxl = img->matriz[j][k];
+				write(paip2[1], &pxl, sizeof(uint8_t));	
+			}
+		}	
+	}
 	wait(NULL);
+	close(paip2[1]);
+	free(img);
 	return 0;
 }

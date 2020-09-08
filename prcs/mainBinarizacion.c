@@ -32,6 +32,12 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip5[1]);
+		int dupiao = dup2(paip2[0], STDIN_FILENO);
+		if (dupiao == -1){
+			fprintf(stderr, "Dup2 fallido" );
+			return 1; 
+		}
+		close(paip5[0]);
 		execv("mainClasificacion", argv);
 	}
 
