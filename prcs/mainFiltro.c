@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip4[1]);
-		int dupiao = dup2(paip2[0], STDIN_FILENO);
+		int dupiao = dup2(paip4[0], STDIN_FILENO);
 		if (dupiao == -1){
 			fprintf(stderr, "Dup2 fallido" );
 			return 1; 
@@ -43,7 +43,11 @@ int main(int argc, char* argv[]){
 	
 	//Padre
 	close(paip4[0]);
-	
+	int dupiao = dup2(paip4[1], STDOUT_FILENO);
+	if (dupiao == -1){
+		fprintf(stderr, "Dup2 paip4[1] fallido" );
+		return 1; 
+	}
 
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
@@ -56,16 +60,58 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
+	Imagen* imgGris;
+	Imagen* imgFiltro;
 	int i;
 
-	//imgGris es la que se le entrega a este main
-
 	for(i = 1; i <= c; i++){
-		//Imagen* imgFiltro = aplicarFiltro(imgGris, filtro);
+		uint32_t alt;
+		uint32_t anch;
+		uint32_t canals;
+		read(STDIN_FILENO, &alt, sizeof(uint32_t));
+		read(STDIN_FILENO, &anch, sizeof(uint32_t));
+		read(STDIN_FILENO, &canals, sizeof(uint32_t));
+		imgGris = (Imagen*)malloc(sizeof(Imagen));
+		imgGris->alto = alt;
+		imgGris->ancho = anch;
+		imgGris->canales = canals;
+		int ancho = imgGris->ancho * imgGris->canales;
+		crearMatrizJpg(imgGris);
+		int j;
+		int k;
+		uint8_t pxl;
+		for(j = 0; j < imgGris->alto; j++){
+			for(k = 0; k < ancho; k++){
+				read(STDIN_FILENO, &pxl, sizeof(uint8_t));
+				imgGris->matriz[j][k] = pxl;
+			}
+		}
+
+		//3° aplicar filtro de realce
+		imgFiltro = aplicarFiltro(imgGris, filtro);
+
+		alt = imgFiltro->alto;
+		anch = imgFiltro->ancho;
+		canals = imgFiltro->canales;
+
+		write(STDOUT_FILENO, &alt, sizeof(uint32_t));
+		write(STDOUT_FILENO, &anch, sizeof(uint32_t));
+		write(STDOUT_FILENO, &canals, sizeof(uint32_t));
+
+		for(j = 0; j < alt; j++){
+			for(k = 0; k < anch*canals; k++){
+				pxl = imgFiltro->matriz[j][k];
+				write(STDOUT_FILENO, &pxl, sizeof(uint8_t));	
+			}
+		}
+		liberarMatrizJpg(imgFiltro);
 	}
 
-	close(STDIN_FILENO);
 	wait(NULL);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	close(paip4[1]);
+	free(imgGris);
+	free(imgFiltro);
 	return 0;
 }

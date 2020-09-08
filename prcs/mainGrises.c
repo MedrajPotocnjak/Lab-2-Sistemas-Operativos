@@ -43,12 +43,19 @@ int main(int argc, char* argv[]){
 
 	//Padre
 	close(paip3[0]);
+	int dupiao = dup2(paip3[1], STDOUT_FILENO);
+	if (dupiao == -1){
+		fprintf(stderr, "Dup2 paip3[1] fallido" );
+		return 1; 
+	}
 
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
 	int b = atoi(argv[10]);
+	Imagen* img;
+	Imagen* imgGris;
 	int i;
 
 	for(i = 1; i <= c; i++){
@@ -58,7 +65,7 @@ int main(int argc, char* argv[]){
 		read(STDIN_FILENO, &alt, sizeof(uint32_t));
 		read(STDIN_FILENO, &anch, sizeof(uint32_t));
 		read(STDIN_FILENO, &canals, sizeof(uint32_t));
-		Imagen* img = (Imagen*)malloc(sizeof(Imagen));
+		img = (Imagen*)malloc(sizeof(Imagen));
 		img->alto = alt;
 		img->ancho = anch;
 		img->canales = canals;
@@ -66,35 +73,37 @@ int main(int argc, char* argv[]){
 		crearMatrizJpg(img);
 		int j;
 		int k;
+		uint8_t pxl;
 		for(j = 0; j < img->alto; j++){
 			for(k = 0; k < ancho; k++){
-				uint8_t pxl;
 				read(STDIN_FILENO, &pxl, sizeof(uint8_t));
 				img->matriz[j][k] = pxl;
 			}
 		}
 
-		Imagen* imgGris = converGris(img);
+		//2° convertir a escala de grises
+		imgGris = converGris(img);
 
 		alt = imgGris->alto;
 		anch = imgGris->ancho;
 		canals = imgGris->canales;
 
-		write(paip3[1], &alt, sizeof(uint32_t));
-		write(paip3[1], &anch, sizeof(uint32_t));
-		write(paip3[1], &canals, sizeof(uint32_t));
+		write(STDOUT_FILENO, &alt, sizeof(uint32_t));
+		write(STDOUT_FILENO, &anch, sizeof(uint32_t));
+		write(STDOUT_FILENO, &canals, sizeof(uint32_t));
 
 		for(j = 0; j < alt; j++){
 			for(k = 0; k < anch*canals; k++){
 				pxl = imgGris->matriz[j][k];
-				write(paip3[1], &pxl, sizeof(uint8_t));	
+				write(STDOUT_FILENO, &pxl, sizeof(uint8_t));	
 			}
 		}
 		liberarMatrizJpg(imgGris);
 	}
 
-	close(STDIN_FILENO);
 	wait(NULL);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	close(paip3[1]);
 	free(img);
 	free(imgGris);

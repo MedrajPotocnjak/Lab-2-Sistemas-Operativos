@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip6[1]);
-		int dupiao = dup2(paip2[0], STDIN_FILENO);
+		int dupiao = dup2(paip6[0], STDIN_FILENO);
 		if (dupiao == -1){
 			fprintf(stderr, "Dup2 fallido" );
 			return 1; 
@@ -43,7 +43,11 @@ int main(int argc, char* argv[]){
 
 	//Padre
 	close(paip6[0]);
-	
+	int dupiao = dup2(paip6[1], STDOUT_FILENO);
+	if (dupiao == -1){
+		fprintf(stderr, "Dup2 paip6[1] fallido" );
+		return 1; 
+	}
 	
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
@@ -51,15 +55,61 @@ int main(int argc, char* argv[]){
 	char* m = argv[8];
 	int b = atoi(argv[10]);
 	int nb;
+	Imagen* imgFiltro;
 	int i;
 	//imgFiltro es la que se le entrega a este main
 	
 	for(i = 1; i <= c; i++){
-		//nb = clasificar(imgFiltro, n);
+		uint32_t alt;
+		uint32_t anch;
+		uint32_t canals;
+		read(STDIN_FILENO, &alt, sizeof(uint32_t));
+		read(STDIN_FILENO, &anch, sizeof(uint32_t));
+		read(STDIN_FILENO, &canals, sizeof(uint32_t));
+		imgFiltro = (Imagen*)malloc(sizeof(Imagen));
+		imgFiltro->alto = alt;
+		imgFiltro->ancho = anch;
+		imgFiltro->canales = canals;
+		int ancho = imgFiltro->ancho * imgFiltro->canales;
+		crearMatrizJpg(imgFiltro);
+		int j;
+		int k;
+		uint8_t pxl;
+		for(j = 0; j < imgFiltro->alto; j++){
+			for(k = 0; k < ancho; k++){
+				uint8_t pxl;
+				read(STDIN_FILENO, &pxl, sizeof(uint8_t));
+				imgFiltro->matriz[j][k] = pxl;
+			}
+		}
+
+		//5° clasificacion de imagen
+		nb = clasificar(imgFiltro, n);
+
+		alt = imgFiltro->alto;
+		anch = imgFiltro->ancho;
+		canals = imgFiltro->canales;
+
+		write(STDOUT_FILENO, &alt, sizeof(uint32_t));
+		write(STDOUT_FILENO, &anch, sizeof(uint32_t));
+		write(STDOUT_FILENO, &canals, sizeof(uint32_t));
+
+		for(j = 0; j < alt; j++){
+			for(k = 0; k < anch*canals; k++){
+				pxl = imgFiltro->matriz[j][k];
+				write(STDOUT_FILENO, &pxl, sizeof(uint8_t));	
+			}
+		}
+
+		write(paip6[1], &nb, sizeof(int));
+
+		liberarMatrizJpg(imgFiltro);
 	}
 
-	close(STDIN_FILENO);
 	wait(NULL);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	free(imgFiltro);
 	close(paip6[1]);
 	return 0;
 }

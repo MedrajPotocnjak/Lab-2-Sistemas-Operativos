@@ -83,9 +83,6 @@ int main(int argc, char* argv[]){
 		}
 	}
 
-	int buffer[SIZE];
-	int readbytes;
-
 	//Pipe
 	int paip1[2];
 
@@ -104,15 +101,13 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip1[1]);
+		close(paip1[0]);
 		execv("mainLectura", argv);
 	}
 	
 	//Padre
+	wait(NULL);
 	close(paip1[0]);
-
-	//read(int fd, void *buf, size_t count);
-	//write(int fd, const void *buf, size_t count);
-
-	wait(NULL);	
+	close(paip1[1]);
 	return 0;
 }

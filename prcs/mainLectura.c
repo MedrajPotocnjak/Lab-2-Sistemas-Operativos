@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
 		close(paip2[1]);
 		int dupiao = dup2(paip2[0], STDIN_FILENO);
 		if (dupiao == -1){
-			fprintf(stderr, "Dup2 fallido" );
+			fprintf(stderr, "Dup2 paip2[0] fallido" );
 			return 1; 
 		}
 		close(paip2[0]);
@@ -42,6 +42,11 @@ int main(int argc, char* argv[]){
 	}
 	//Padre
 	close(paip2[0]);
+	int dupiao = dup2(paip2[1], STDOUT_FILENO);
+	if (dupiao == -1){
+		fprintf(stderr, "Dup2 paip2[1] fallido" );
+		return 1; 
+	}
 	
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
@@ -49,10 +54,12 @@ int main(int argc, char* argv[]){
 	char* m = argv[8];
 	int b = atoi(argv[10]);
 
-	struct jpeg_error_mgr jerr;	
+	struct jpeg_error_mgr jerr;
+	Imagen* img;
 	int i;
+
 	for(i = 1; i <= c; i++){
-		Imagen* img = (Imagen*)malloc(sizeof(Imagen));
+		img = (Imagen*)malloc(sizeof(Imagen));
 		if(img == NULL){
 			printf("Fallo en malloc de img %d\n", i);
 			return 1;
@@ -65,22 +72,23 @@ int main(int argc, char* argv[]){
 		uint32_t canals = img->canales;
 		uint8_t pxl;
 
-		write(paip2[1], &alt, sizeof(uint32_t));
-		write(paip2[1], &anch, sizeof(uint32_t));
-		write(paip2[1], &canals, sizeof(uint32_t));
+		write(STDOUT_FILENO, &alt, sizeof(uint32_t));
+		write(STDOUT_FILENO, &anch, sizeof(uint32_t));
+		write(STDOUT_FILENO, &canals, sizeof(uint32_t));
 
 		int j;
 		int k;
 		for(j = 0; j < alt; j++){
 			for(k = 0; k < anch*canals; k++){
 				pxl = img->matriz[j][k];
-				write(paip2[1], &pxl, sizeof(uint8_t));	
+				write(STDOUT_FILENO, &pxl, sizeof(uint8_t));	
 			}
 		}
 		liberarMatrizJpg(img);	
 	}
-	close(STDIN_FILENO);
 	wait(NULL);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	close(paip2[1]);
 	free(img);
 	return 0;

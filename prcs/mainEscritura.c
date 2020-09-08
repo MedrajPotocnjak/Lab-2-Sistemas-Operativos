@@ -20,6 +20,7 @@ int main(int argc, char* argv[]){
 	char* m = argv[8];
 	int b = atoi(argv[10]);
 	struct jpeg_error_mgr jerr;
+	Imagen* imgFiltro;
 	int i;
 	int nb;
 	char* result;
@@ -32,9 +33,32 @@ int main(int argc, char* argv[]){
 	}
 
 	for(i = 1; i <= c; i++){
-
+		uint32_t alt;
+		uint32_t anch;
+		uint32_t canals;
+		read(STDIN_FILENO, &alt, sizeof(uint32_t));
+		read(STDIN_FILENO, &anch, sizeof(uint32_t));
+		read(STDIN_FILENO, &canals, sizeof(uint32_t));
+		Imagen* imgFiltro = (Imagen*)malloc(sizeof(Imagen));
+		imgFiltro->alto = alt;
+		imgFiltro->ancho = anch;
+		imgFiltro->canales = canals;
+		int ancho = imgFiltro->ancho * imgFiltro->canales;
+		crearMatrizJpg(imgFiltro);
+		int j;
+		int k;
+		uint8_t pxl;
+		for(j = 0; j < imgFiltro->alto; j++){
+			for(k = 0; k < ancho; k++){
+				read(STDIN_FILENO, &pxl, sizeof(uint8_t));
+				imgFiltro->matriz[j][k] = pxl;
+			}
+		}
 		
-		//escribirJpg(imgFiltro, i, &jerr);
+		//6° escritura de imagen
+		escribirJpg(imgFiltro, i, &jerr);
+
+		read(STDIN_FILENO, &nb, sizeof(int));
 
 		nombre = armarNombreArchivo(i, 2);
 
@@ -50,12 +74,15 @@ int main(int argc, char* argv[]){
     		sprintf(resultado, "|%15s|%16s|\n", nombre, result);
         	strcat(salida, resultado); 
     	}
+
+    	liberarMatrizJpg(imgFiltro);
 	}
 
 	if (b == 1) {
         printf("%s\n", salida); 
     }
 	wait(NULL);
-	free(img);
+	close(STDIN_FILENO);
+	free(imgFiltro);
 	return 0;
 }
