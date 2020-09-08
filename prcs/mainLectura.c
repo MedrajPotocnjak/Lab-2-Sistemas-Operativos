@@ -13,18 +13,14 @@
 //modificacion de las imagenes y la clasificacion.
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
-
 	//Pipe
 	int paip2[2];
-
 	if (pipe(paip2) == -1){ 
         fprintf(stderr, "Pipe fallido" ); 
         return 1; 
     }
-
 	//Fork con exec
 	pid_t forky = fork();
-
 	if(forky < 0){
 		fprintf(stderr, "Fork fallido" ); 
         return 1;
@@ -39,7 +35,7 @@ int main(int argc, char* argv[]){
 			return 1; 
 		}
 		close(paip2[0]);
-		execv("mainGrises", argv);
+		execv("./mainGrises", argv);
 	}
 	//Padre
 	close(paip2[0]);
@@ -59,6 +55,8 @@ int main(int argc, char* argv[]){
 	struct jpeg_error_mgr jerr;
 	Imagen* img;
 	int i;
+
+	fprintf(stderr, "antes del for lectura" );
 
 	for(i = 1; i <= c; i++){
 

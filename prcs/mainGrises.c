@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
 			return 1; 
 		}
 		close(paip3[0]);
-		execv("mainFiltro", argv);
+		execv("./mainFiltro", argv);
 	}
 
 	//Padre

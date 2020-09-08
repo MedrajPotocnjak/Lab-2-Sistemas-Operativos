@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
 			return 1; 
 		}
 		close(paip4[0]);
-		execv("mainBinarizacion", argv);
+		execv("./mainBinarizacion", argv);
 	}
 	
 	//Padre

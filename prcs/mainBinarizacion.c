@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
 			return 1; 
 		}
 		close(paip5[0]);
-		execv("mainClasificacion", argv);
+		execv("./mainClasificacion", argv);
 	}
 
 	//Padre

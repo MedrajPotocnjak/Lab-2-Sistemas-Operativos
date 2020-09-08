@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
 			return 1; 
 		}
 		close(paip6[0]);
-		execv("mainEscritura", argv);
+		execv("./mainEscritura", argv);
 	}
 
 	//Padre
