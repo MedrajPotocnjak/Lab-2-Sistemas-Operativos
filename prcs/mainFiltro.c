@@ -64,6 +64,8 @@ int main(int argc, char* argv[]){
 		//Imagen* imgFiltro = aplicarFiltro(imgGris, filtro);
 	}
 
+	close(STDIN_FILENO);
 	wait(NULL);
+	close(paip4[1]);
 	return 0;
 }

@@ -32,7 +32,7 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip3[1]);
-		int dupiao = dup2(paip2[0], STDIN_FILENO);
+		int dupiao = dup2(paip3[0], STDIN_FILENO);
 		if (dupiao == -1){
 			fprintf(stderr, "Dup2 fallido" );
 			return 1; 
@@ -55,9 +55,9 @@ int main(int argc, char* argv[]){
 		uint32_t alt;
 		uint32_t anch;
 		uint32_t canals;
-		read(paip3[0], &alt, sizeof(uint32_t));
-		read(paip3[0], &anch, sizeof(uint32_t));
-		read(paip3[0], &canals, sizeof(uint32_t));
+		read(STDIN_FILENO, &alt, sizeof(uint32_t));
+		read(STDIN_FILENO, &anch, sizeof(uint32_t));
+		read(STDIN_FILENO, &canals, sizeof(uint32_t));
 		Imagen* img = (Imagen*)malloc(sizeof(Imagen));
 		img->alto = alt;
 		img->ancho = anch;
@@ -69,15 +69,34 @@ int main(int argc, char* argv[]){
 		for(j = 0; j < img->alto; j++){
 			for(k = 0; k < ancho; k++){
 				uint8_t pxl;
-				read(paip3[0], &pxl, sizeof(uint8_t));
+				read(STDIN_FILENO, &pxl, sizeof(uint8_t));
 				img->matriz[j][k] = pxl;
 			}
 		}
 
 		Imagen* imgGris = converGris(img);
 
+		alt = imgGris->alto;
+		anch = imgGris->ancho;
+		canals = imgGris->canales;
+
+		write(paip3[1], &alt, sizeof(uint32_t));
+		write(paip3[1], &anch, sizeof(uint32_t));
+		write(paip3[1], &canals, sizeof(uint32_t));
+
+		for(j = 0; j < alt; j++){
+			for(k = 0; k < anch*canals; k++){
+				pxl = imgGris->matriz[j][k];
+				write(paip3[1], &pxl, sizeof(uint8_t));	
+			}
+		}
+		liberarMatrizJpg(imgGris);
 	}
 
+	close(STDIN_FILENO);
 	wait(NULL);
+	close(paip3[1]);
+	free(img);
+	free(imgGris);
 	return 0;
 }

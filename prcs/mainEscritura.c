@@ -24,7 +24,6 @@ int main(int argc, char* argv[]){
 	int nb;
 	char* result;
 	char* nombre;
-	//imgFiltro es la que se le entrega a este main
 
 	char salida[500] = "";
 	if(b == 1){
@@ -33,6 +32,8 @@ int main(int argc, char* argv[]){
 	}
 
 	for(i = 1; i <= c; i++){
+
+		
 		//escribirJpg(imgFiltro, i, &jerr);
 
 		nombre = armarNombreArchivo(i, 2);

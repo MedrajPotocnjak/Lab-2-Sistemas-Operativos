@@ -58,6 +58,8 @@ int main(int argc, char* argv[]){
 		//nb = clasificar(imgFiltro, n);
 	}
 
+	close(STDIN_FILENO);
 	wait(NULL);
+	close(paip6[1]);
 	return 0;
 }

@@ -58,6 +58,8 @@ int main(int argc, char* argv[]){
 		//binarizar(imgFiltro, u);
 	}
 
+	close(STDIN_FILENO);
 	wait(NULL);
+	close(paip5[1]);
 	return 0;
 }

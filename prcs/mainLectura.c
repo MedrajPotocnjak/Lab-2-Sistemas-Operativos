@@ -76,8 +76,10 @@ int main(int argc, char* argv[]){
 				pxl = img->matriz[j][k];
 				write(paip2[1], &pxl, sizeof(uint8_t));	
 			}
-		}	
+		}
+		liberarMatrizJpg(img);	
 	}
+	close(STDIN_FILENO);
 	wait(NULL);
 	close(paip2[1]);
 	free(img);
