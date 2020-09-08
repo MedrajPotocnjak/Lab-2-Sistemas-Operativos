@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip5[1]);
+		fprintf(stderr, "Estoy en hijo mainBinarizacion \n" );
 		int dupiao = dup2(paip5[0], STDIN_FILENO);
 		if (dupiao == -1){
 			fprintf(stderr, "Dup2 fallido" );
@@ -43,6 +44,7 @@ int main(int argc, char* argv[]){
 
 	//Padre
 	close(paip5[0]);
+	fprintf(stderr, "Estoy en padre mainBinarizacion \n" );
 	int dupiao = dup2(paip5[1], STDOUT_FILENO);
 	if (dupiao == -1){
 		fprintf(stderr, "Dup2 paip5[1] fallido" );

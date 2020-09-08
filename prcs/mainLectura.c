@@ -32,6 +32,7 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip2[1]);
+		fprintf(stderr, "Estoy en hijo mainLectura \n" );
 		int dupiao = dup2(paip2[0], STDIN_FILENO);
 		if (dupiao == -1){
 			fprintf(stderr, "Dup2 paip2[0] fallido" );
@@ -42,6 +43,7 @@ int main(int argc, char* argv[]){
 	}
 	//Padre
 	close(paip2[0]);
+	fprintf(stderr, "Estoy en padre mainLectura \n" );
 	int dupiao = dup2(paip2[1], STDOUT_FILENO);
 	if (dupiao == -1){
 		fprintf(stderr, "Dup2 paip2[1] fallido" );
@@ -59,6 +61,9 @@ int main(int argc, char* argv[]){
 	int i;
 
 	for(i = 1; i <= c; i++){
+
+		fprintf(stderr, "Llegue al for Lectura" );
+
 		img = (Imagen*)malloc(sizeof(Imagen));
 		if(img == NULL){
 			printf("Fallo en malloc de img %d\n", i);

@@ -102,6 +102,7 @@ int main(int argc, char* argv[]){
 		//Hijo
 		close(paip1[1]);
 		close(paip1[0]);
+		fprintf(stderr, "Estoy en hijo main \n" );
 		execv("mainLectura", argv);
 	}
 	
