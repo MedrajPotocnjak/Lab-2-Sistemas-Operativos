@@ -12,8 +12,6 @@
 //Funcionamiento: inicia el programa, realiza el getopt y ejecuta los procesos del pipeline para la
 //modificacion de las imagenes y la clasificacion.
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
-
-//Se le entregara el número de la imagen la cual se asignara a la variable i, tambien se le entregara la cantidad total de imagenes
 int main(int argc, char* argv[]){
 
 	//Pipe
