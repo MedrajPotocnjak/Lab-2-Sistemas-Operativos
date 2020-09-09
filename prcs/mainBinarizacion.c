@@ -47,17 +47,17 @@ int main(int argc, char* argv[]){
 	fprintf(stderr, "Estoy en padre mainBinarizacion \n" );
 	int dupiao = dup2(paip5[1], STDOUT_FILENO);
 	if (dupiao == -1){
-		fprintf(stderr, "Dup2 paip5[1] fallido" );
+		fprintf(stderr, "Dup2 paip5[1] fallido \n" );
 		return 1; 
 	}
+	close(paip5[1]);
 	
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
-	int b = atoi(argv[10]);
 	
-	Imagen* imgFiltro;
+	Imagen* imgFiltro = (Imagen*)malloc(sizeof(Imagen));
 	int i;
 	//imgFiltro es la que se le entrega a este main
 
@@ -68,7 +68,6 @@ int main(int argc, char* argv[]){
 		read(STDIN_FILENO, &alt, sizeof(uint32_t));
 		read(STDIN_FILENO, &anch, sizeof(uint32_t));
 		read(STDIN_FILENO, &canals, sizeof(uint32_t));
-		imgFiltro = (Imagen*)malloc(sizeof(Imagen));
 		imgFiltro->alto = alt;
 		imgFiltro->ancho = anch;
 		imgFiltro->canales = canals;
@@ -109,6 +108,5 @@ int main(int argc, char* argv[]){
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	free(imgFiltro);
-	close(paip5[1]);
 	return 0;
 }

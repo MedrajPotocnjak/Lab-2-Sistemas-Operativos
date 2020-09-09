@@ -20,13 +20,20 @@ int main(int argc, char* argv[]){
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
-	int b = atoi(argv[10]);
+	int b;
 	struct jpeg_error_mgr jerr;
-	Imagen* imgFiltro;
+	Imagen* imgFiltro = (Imagen*)malloc(sizeof(Imagen));
 	int i;
 	int nb;
 	char* result;
 	char* nombre;
+
+	if(argc == 10){
+		b = 1;
+	}
+	else{
+		b = 0;
+	}
 
 	char salida[500] = "";
 	if(b == 1){
@@ -41,7 +48,6 @@ int main(int argc, char* argv[]){
 		read(STDIN_FILENO, &alt, sizeof(uint32_t));
 		read(STDIN_FILENO, &anch, sizeof(uint32_t));
 		read(STDIN_FILENO, &canals, sizeof(uint32_t));
-		Imagen* imgFiltro = (Imagen*)malloc(sizeof(Imagen));
 		imgFiltro->alto = alt;
 		imgFiltro->ancho = anch;
 		imgFiltro->canales = canals;

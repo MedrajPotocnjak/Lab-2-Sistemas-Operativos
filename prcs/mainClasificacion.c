@@ -18,7 +18,7 @@ int main(int argc, char* argv[]){
 	int paip6[2];
 
 	if (pipe(paip6) == -1){ 
-        fprintf(stderr, "Pipe fallido" ); 
+        fprintf(stderr, "Pipe fallido \n" ); 
         return 1; 
     }
 
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
 	pid_t forky = fork();
 
 	if(forky < 0){
-		fprintf(stderr, "Fork fallido" ); 
+		fprintf(stderr, "Fork fallido \n" ); 
         return 1;
 	}
 	if(forky == 0){
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]){
 		fprintf(stderr, "Estoy en hijo mainClasificacion \n" );
 		int dupiao = dup2(paip6[0], STDIN_FILENO);
 		if (dupiao == -1){
-			fprintf(stderr, "Dup2 fallido" );
+			fprintf(stderr, "Dup2 fallido \n" );
 			return 1; 
 		}
 		close(paip6[0]);
@@ -47,17 +47,17 @@ int main(int argc, char* argv[]){
 	fprintf(stderr, "Estoy en padre mainClasidicacion \n" );
 	int dupiao = dup2(paip6[1], STDOUT_FILENO);
 	if (dupiao == -1){
-		fprintf(stderr, "Dup2 paip6[1] fallido" );
+		fprintf(stderr, "Dup2 paip6[1] fallido \n" );
 		return 1; 
 	}
+	close(paip6[1]);
 	
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
-	int b = atoi(argv[10]);
 	int nb;
-	Imagen* imgFiltro;
+	Imagen* imgFiltro = (Imagen*)malloc(sizeof(Imagen));
 	int i;
 	//imgFiltro es la que se le entrega a este main
 	
@@ -68,7 +68,6 @@ int main(int argc, char* argv[]){
 		read(STDIN_FILENO, &alt, sizeof(uint32_t));
 		read(STDIN_FILENO, &anch, sizeof(uint32_t));
 		read(STDIN_FILENO, &canals, sizeof(uint32_t));
-		imgFiltro = (Imagen*)malloc(sizeof(Imagen));
 		imgFiltro->alto = alt;
 		imgFiltro->ancho = anch;
 		imgFiltro->canales = canals;
@@ -103,7 +102,7 @@ int main(int argc, char* argv[]){
 			}
 		}
 
-		write(paip6[1], &nb, sizeof(int));
+		write(STDOUT_FILENO, &nb, sizeof(int));
 
 		liberarMatrizJpg(imgFiltro);
 	}
@@ -112,6 +111,5 @@ int main(int argc, char* argv[]){
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	free(imgFiltro);
-	close(paip6[1]);
 	return 0;
 }

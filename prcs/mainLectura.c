@@ -16,13 +16,13 @@ int main(int argc, char* argv[]){
 	//Pipe
 	int paip2[2];
 	if (pipe(paip2) == -1){ 
-        fprintf(stderr, "Pipe fallido" ); 
+        fprintf(stderr, "Pipe fallido \n" ); 
         return 1; 
     }
 	//Fork con exec
 	pid_t forky = fork();
 	if(forky < 0){
-		fprintf(stderr, "Fork fallido" ); 
+		fprintf(stderr, "Fork fallido \n" ); 
         return 1;
 	}
 	if(forky == 0){
@@ -31,10 +31,11 @@ int main(int argc, char* argv[]){
 		fprintf(stderr, "Estoy en hijo mainLectura \n" );
 		int dupiao = dup2(paip2[0], STDIN_FILENO);
 		if (dupiao == -1){
-			fprintf(stderr, "Dup2 paip2[0] fallido" );
+			fprintf(stderr, "Dup2 paip2[0] fallido \n" );
 			return 1; 
 		}
 		close(paip2[0]);
+
 		execv("./mainGrises", argv);
 	}
 	//Padre
@@ -42,27 +43,26 @@ int main(int argc, char* argv[]){
 	fprintf(stderr, "Estoy en padre mainLectura \n" );
 	int dupiao = dup2(paip2[1], STDOUT_FILENO);
 	if (dupiao == -1){
-		fprintf(stderr, "Dup2 paip2[1] fallido" );
+		fprintf(stderr, "Dup2 paip2[1] fallido \n" );
 		return 1; 
 	}
+	close(paip2[1]);
 	
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
-	int b = atoi(argv[10]);
 
 	struct jpeg_error_mgr jerr;
-	Imagen* img;
+	Imagen* img = (Imagen*)malloc(sizeof(Imagen));
 	int i;
 
-	fprintf(stderr, "antes del for lectura" );
+	fprintf(stderr, "antes del for lectura \n" );
 
 	for(i = 1; i <= c; i++){
 
-		fprintf(stderr, "Llegue al for Lectura" );
+		fprintf(stderr, "Llegue al for Lectura \n" );
 
-		img = (Imagen*)malloc(sizeof(Imagen));
 		if(img == NULL){
 			printf("Fallo en malloc de img %d\n", i);
 			return 1;
@@ -89,10 +89,10 @@ int main(int argc, char* argv[]){
 		}
 		liberarMatrizJpg(img);	
 	}
+	fprintf(stderr, "Estoy en final mainLectura \n" );
 	wait(NULL);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	close(paip2[1]);
 	free(img);
 	return 0;
 }

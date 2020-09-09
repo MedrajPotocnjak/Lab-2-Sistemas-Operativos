@@ -18,7 +18,7 @@ int main(int argc, char* argv[]){
 	int paip4[2];
 
 	if (pipe(paip4) == -1){ 
-        fprintf(stderr, "Pipe fallido" ); 
+        fprintf(stderr, "Pipe fallido \n" ); 
         return 1; 
     }
 
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
 	pid_t forky = fork();
 
 	if(forky < 0){
-		fprintf(stderr, "Fork fallido" ); 
+		fprintf(stderr, "Fork fallido \n" ); 
         return 1;
 	}
 	if(forky == 0){
@@ -35,7 +35,7 @@ int main(int argc, char* argv[]){
 		fprintf(stderr, "Estoy en hijo mainFiltro \n" );
 		int dupiao = dup2(paip4[0], STDIN_FILENO);
 		if (dupiao == -1){
-			fprintf(stderr, "Dup2 fallido" );
+			fprintf(stderr, "Dup2 paip4[0] fallido \n" );
 			return 1; 
 		}
 		close(paip4[0]);
@@ -47,22 +47,22 @@ int main(int argc, char* argv[]){
 	fprintf(stderr, "Estoy en padre mainFiltro \n" );
 	int dupiao = dup2(paip4[1], STDOUT_FILENO);
 	if (dupiao == -1){
-		fprintf(stderr, "Dup2 paip4[1] fallido" );
+		fprintf(stderr, "Dup2 paip4[1] fallido \n" );
 		return 1; 
 	}
+	close(paip4[1]);
 
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
 	char* m = argv[8];
-	int b = atoi(argv[10]);
 	
 	int** filtro = abrirFiltro(m);
 	if(filtro == NULL){
 		return 1;
 	}
 
-	Imagen* imgGris;
+	Imagen* imgGris = (Imagen*)malloc(sizeof(Imagen));
 	Imagen* imgFiltro;
 	int i;
 
@@ -72,8 +72,7 @@ int main(int argc, char* argv[]){
 		uint32_t canals;
 		read(STDIN_FILENO, &alt, sizeof(uint32_t));
 		read(STDIN_FILENO, &anch, sizeof(uint32_t));
-		read(STDIN_FILENO, &canals, sizeof(uint32_t));
-		imgGris = (Imagen*)malloc(sizeof(Imagen));
+		read(STDIN_FILENO, &canals, sizeof(uint32_t));		
 		imgGris->alto = alt;
 		imgGris->ancho = anch;
 		imgGris->canales = canals;
@@ -106,14 +105,14 @@ int main(int argc, char* argv[]){
 				write(STDOUT_FILENO, &pxl, sizeof(uint8_t));	
 			}
 		}
+		liberarMatrizJpg(imgGris);
 		liberarMatrizJpg(imgFiltro);
+		free(imgFiltro);
 	}
 
 	wait(NULL);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	close(paip4[1]);
 	free(imgGris);
-	free(imgFiltro);
 	return 0;
 }
