@@ -32,7 +32,6 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip6[1]);
-		fprintf(stderr, "Estoy en hijo mainClasificacion \n" );
 		int dupiao = dup2(paip6[0], STDIN_FILENO);
 		if (dupiao == -1){
 			fprintf(stderr, "Dup2 fallido \n" );
@@ -44,7 +43,6 @@ int main(int argc, char* argv[]){
 
 	//Padre
 	close(paip6[0]);
-	fprintf(stderr, "Estoy en padre mainClasidicacion \n" );
 	int dupiao = dup2(paip6[1], STDOUT_FILENO);
 	if (dupiao == -1){
 		fprintf(stderr, "Dup2 paip6[1] fallido \n" );

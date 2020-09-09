@@ -14,8 +14,6 @@
 //Salidas: 0 si termina correctamente, 1 si termina con errores.
 int main(int argc, char* argv[]){
 
-	fprintf(stderr, "Estoy en primera linea escritura \n" );
-
 	int c = atoi(argv[2]);
 	int u = atoi(argv[4]);
 	int n = atoi(argv[6]);
@@ -82,8 +80,6 @@ int main(int argc, char* argv[]){
     		sprintf(resultado, "|%15s|%16s|\n", nombre, result);
         	strcat(salida, resultado); 
     	}
-
-    	liberarMatrizJpg(imgFiltro);
 	}
 
 	if (b == 1) {

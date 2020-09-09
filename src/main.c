@@ -85,20 +85,19 @@ int main(int argc, char* argv[]){
 	//Pipe
 	int paip1[2];
 	if (pipe(paip1) == -1){ 
-        fprintf(stderr, "Pipe fallido" ); 
+        fprintf(stderr, "Pipe fallido \n" ); 
         return 1; 
     }
 	//Fork con exec
 	pid_t forky = fork();
 	if(forky < 0){
-		fprintf(stderr, "Fork fallido" ); 
+		fprintf(stderr, "Fork fallido \n" ); 
         return 1;
 	}
 	if(forky == 0){
 		//Hijo
 		close(paip1[1]);
 		close(paip1[0]);
-		fprintf(stderr, "Estoy en hijo main \n" );
 		execv("./mainLectura", argv);
 	}
 	//Padre

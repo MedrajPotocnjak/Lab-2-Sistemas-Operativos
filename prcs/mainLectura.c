@@ -28,7 +28,6 @@ int main(int argc, char* argv[]){
 	if(forky == 0){
 		//Hijo
 		close(paip2[1]);
-		fprintf(stderr, "Estoy en hijo mainLectura \n" );
 		int dupiao = dup2(paip2[0], STDIN_FILENO);
 		if (dupiao == -1){
 			fprintf(stderr, "Dup2 paip2[0] fallido \n" );
@@ -40,7 +39,6 @@ int main(int argc, char* argv[]){
 	}
 	//Padre
 	close(paip2[0]);
-	fprintf(stderr, "Estoy en padre mainLectura \n" );
 	int dupiao = dup2(paip2[1], STDOUT_FILENO);
 	if (dupiao == -1){
 		fprintf(stderr, "Dup2 paip2[1] fallido \n" );
@@ -57,11 +55,7 @@ int main(int argc, char* argv[]){
 	Imagen* img = (Imagen*)malloc(sizeof(Imagen));
 	int i;
 
-	fprintf(stderr, "antes del for lectura \n" );
-
 	for(i = 1; i <= c; i++){
-
-		fprintf(stderr, "Llegue al for Lectura \n" );
 
 		if(img == NULL){
 			printf("Fallo en malloc de img %d\n", i);
@@ -89,7 +83,6 @@ int main(int argc, char* argv[]){
 		}
 		liberarMatrizJpg(img);	
 	}
-	fprintf(stderr, "Estoy en final mainLectura \n" );
 	wait(NULL);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
